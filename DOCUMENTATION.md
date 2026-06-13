@@ -1,0 +1,346 @@
+# FindJob - UML and EER Diagrams
+
+## UML Class Diagram
+
+```
+┌─────────────────────────────────────┐
+│         <<abstract>>               │
+│           BaseEntity               │
+├─────────────────────────────────────┤
+│ - id: Long                         │
+│ - createdAt: LocalDateTime         │
+│ - updatedAt: LocalDateTime         │
+├─────────────────────────────────────┤
+│ + getId(): Long                    │
+│ + getCreatedAt(): LocalDateTime    │
+│ + getUpdatedAt(): LocalDateTime    │
+└─────────────────────────────────────┘
+                  ▲
+                  │
+                  │ extends
+                  │
+┌─────────────────────────────────────┐
+│         <<abstract>>               │
+│              User                  │
+├─────────────────────────────────────┤
+│ - username: String                 │
+│ - password: String                 │
+│ - firstName: String                │
+│ - lastName: String                 │
+│ - email: String                    │
+│ - phoneNumber: String              │
+│ - accountNonLocked: Boolean        │
+│ - loginAttempts: Integer           │
+│ - role: Role                       │
+│ - jobs: Set<Job>                   │
+├─────────────────────────────────────┤
+│ + getUsername(): String            │
+│ + getPassword(): String            │
+│ + getFirstName(): String           │
+│ + getLastName(): String            │
+│ + getEmail(): String               │
+│ + getPhoneNumber(): String         │
+│ + getRole(): Role                  │
+└─────────────────────────────────────┘
+                  ▲
+                  │
+        ┌─────────┴─────────┐
+        │                   │
+        │ extends           │ extends
+        │                   │
+┌───────────────┐   ┌─────────────────┐
+│     Admin     │   │   JobSeeker    │
+├───────────────┤   ├─────────────────┤
+│ - companyName │   │ - birthDate:    │
+│ - companyAddr │   │   LocalDate     │
+│ - taxNumber   │   │ - militaryStatus│
+├───────────────┤   │ - yearsOfExp:   │
+│ + getCompany  │   │   Integer       │
+│   Name():Str  │   │ - education:Str │
+│ + getCompany  │   │ - skills: Str   │
+│   Addr():Str  │   │ - workExp: Str  │
+│ + getTaxNum() │   │ - portfolioUrl │
+│   : String    │   │ - available:    │
+└───────────────┘   │   Boolean       │
+                   │ - expectedSal:  │
+                   │   Double        │
+                   │ - appliedJobs:  │
+                   │   Set<Job>     │
+                   ├─────────────────┤
+                   │ + getBirthDate()│
+                   │ + getMilStatus()│
+                   │ + getYearsExp() │
+                   │ + getEducation()│
+                   │ + getSkills()   │
+                   │ + getWorkExp()  │
+                   └─────────────────┘
+
+┌─────────────────────────────────────┐
+│              Job                  │
+├─────────────────────────────────────┤
+│ - title: String                    │
+│ - description: String              │
+│ - location: String                 │
+│ - department: String               │
+│ - salaryMin: Double                │
+│ - salaryMax: Double                │
+│ - requiredExp: Integer             │
+│ - requiredMilStatus: MilitaryStatus│
+│ - requiredEducation: String        │
+│ - requiredSkills: String           │
+│ - postingDate: LocalDate           │
+│ - applicationDeadline: LocalDate   │
+│ - isActive: Boolean                │
+│ - postedBy: Admin                  │
+│ - applicants: Set<JobSeeker>       │
+├─────────────────────────────────────┤
+│ + getTitle(): String               │
+│ + getDescription(): String         │
+│ + getLocation(): String            │
+│ + getDepartment(): String          │
+│ + getSalaryMin(): Double           │
+│ + getSalaryMax(): Double           │
+│ + getRequiredExp(): Integer        │
+│ + getPostedBy(): Admin             │
+│ + getApplicants(): Set<JobSeeker>  │
+└─────────────────────────────────────┘
+```
+
+## EER Diagram (Entity-Relationship)
+
+```
+┌─────────────────┐         ┌─────────────────┐
+│     ADMIN       │         │      JOB       │
+├─────────────────┤         ├─────────────────┤
+│ PK id           │         │ PK id           │
+│    username     │         │    title        │
+│    password     │         │    description  │
+│    firstName    │         │    location     │
+│    lastName     │         │    department   │
+│    email         │         │    salaryMin    │
+│    phoneNumber   │         │    salaryMax    │
+│    companyName   │         │    requiredExp  │
+│    companyAddr   │         │    requiredMil  │
+│    taxNumber     │         │    requiredEdu  │
+│    role          │         │    postingDate  │
+│    accountNonLoc │         │    deadline     │
+│    loginAttempts │         │    isActive     │
+│    createdAt     │         │    createdAt    │
+│    updatedAt     │         │    updatedAt    │
+└────────┬────────┘         └────────┬────────┘
+         │ 1                         │ 1
+         │                           │
+         │ posts                     │
+         │                           │
+         │ N                         │ N
+┌────────┴────────┐         ┌────────┴────────┐
+│      JOB        │         │   JOB_SEEKER    │
+│                 │         ├─────────────────┤
+│                 │         │ PK id           │
+│                 │         │    username     │
+│                 │         │    password     │
+│                 │         │    firstName    │
+│                 │         │    lastName     │
+│                 │         │    email         │
+│                 │         │    phoneNumber   │
+│                 │         │    birthDate     │
+│                 │         │    milStatus     │
+│                 │         │    yearsOfExp    │
+│                 │         │    education     │
+│                 │         │    skills        │
+│                 │         │    workExp       │
+│                 │         │    portfolioUrl  │
+│                 │         │    available     │
+│                 │         │    expectedSal   │
+│                 │         │    role          │
+│                 │         │    createdAt     │
+│                 │         │    updatedAt     │
+└─────────────────┘         └────────┬────────┘
+                                    │
+                                    │ applies
+                                    │
+                                    │ M
+                                    │
+                                    │ N
+                         ┌──────────┴──────────┐
+                         │  JOB_APPLICATIONS   │
+                         ├────────────────────┤
+                         │ PK,FK job_id       │
+                         │ PK,FK job_seeker_id│
+                         └────────────────────┘
+```
+
+## Relationship Details
+
+### 1. Admin to Job (One-to-Many)
+- **Relationship**: One Admin can post multiple Jobs
+- **Cardinality**: 1 Admin → N Jobs
+- **Foreign Key**: `posted_by_id` in Job table references Admin.id
+- **JPA Annotation**: `@ManyToOne` in Job, `@OneToMany` in Admin
+
+### 2. Job to JobSeeker (Many-to-Many)
+- **Relationship**: Many JobSeekers can apply to many Jobs
+- **Cardinality**: N Jobs ↔ M JobSeekers
+- **Join Table**: `job_applications`
+- **JPA Annotation**: `@ManyToMany` with `@JoinTable`
+
+### 3. User Inheritance
+- **Type**: Single Table Inheritance with JOINED strategy
+- **Base Table**: `users`
+- **Subclass Tables**: `admins`, `job_seekers`
+- **Discriminator**: `role` field
+
+## Data Flow Diagram
+
+```
+┌──────────┐     ┌──────────┐     ┌──────────┐     ┌──────────┐
+│  React   │────▶│ Controller│────▶│ Service  │────▶│ Repository│
+│ Frontend │     │   Layer  │     │  Layer   │     │   Layer   │
+└──────────┘     └──────────┘     └──────────┘     └──────────┘
+     │                │                │                │
+     │                │                │                │
+     │                │                │                ▼
+     │                │                │         ┌──────────┐
+     │                │                │         │ Database │
+     │                │                │         │   (H2)   │
+     │                │                │         └──────────┘
+     │                │                │                │
+     │                │                │                │
+     │                │                │                ▼
+     │                │                │         ┌──────────┐
+     │                │                │         │  Files   │
+     │                │                │         │  (I/O)   │
+     │                │                │         └──────────┘
+     │                │                │
+     │                │                ▼
+     │                │         ┌──────────┐
+     │                │         │   AOP    │
+     │                │         │ Logging  │
+     │                │         └──────────┘
+     │                │
+     │                ▼
+     │         ┌──────────┐
+     │         │ Security │
+     │         │  Filter  │
+     │         └──────────┘
+     │
+     ▼
+┌──────────┐
+│   JWT    │
+│  Token   │
+└──────────┘
+```
+
+## Sequence Diagram - Login Flow
+
+```
+User          React Frontend       AuthController      UserService      Security
+  │                  │                    │                  │              │
+  │──Login Request──▶│                    │                  │              │
+  │                  │──POST /login──────▶│                  │              │
+  │                  │                    │──login()────────▶│              │
+  │                  │                    │                  │──validate──▶│
+  │                  │                    │                  │◀──token─────│
+  │                  │                    │◀──AuthResponse───│              │
+  │                  │◀──JWT Token────────│                  │              │
+  │◀──Success────────│                    │                  │              │
+  │                  │                    │                  │              │
+```
+
+## Sequence Diagram - Job Application
+
+```
+JobSeeker     React Frontend    JobController      JobService      JobRepository
+    │                │                  │                  │                │
+    │──Apply Job────▶│                  │                  │                │
+    │                │──POST /apply─────▶│                  │                │
+    │                │                  │──applyForJob()───▶│                │
+    │                │                  │                  │──save()──────▶│
+    │                │                  │                  │◀──Job─────────│
+    │                │                  │◀──success────────│                │
+    │◀──Confirmation─│                  │                  │                │
+    │                │                  │                  │                │
+```
+
+## Component Diagram (Frontend)
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                      React App                            │
+├─────────────────────────────────────────────────────────┤
+│                                                           │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
+│  │   Navbar     │  │   Login      │  │  Register    │  │
+│  └──────────────┘  └──────────────┘  └──────────────┘  │
+│                                                           │
+│  ┌──────────────────────┐  ┌────────────────────────┐  │
+│  │  AdminDashboard      │  │  JobSeekerDashboard    │  │
+│  ├──────────────────────┤  ├────────────────────────┤  │
+│  │ - Job Management     │  │ - Profile View         │  │
+│  │ - Job Seeker Filter  │  │ - Job Search           │  │
+│  │ - File Export        │  │ - Job Application      │  │
+│  └──────────────────────┘  └────────────────────────┘  │
+│                                                           │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │              AuthContext                          │   │
+│  │  - login(), register(), logout(), user state      │   │
+│  └──────────────────────────────────────────────────┘   │
+│                                                           │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │              Axios API Client                     │   │
+│  │  - HTTP requests to backend                      │   │
+│  └──────────────────────────────────────────────────┘   │
+│                                                           │
+└─────────────────────────────────────────────────────────┘
+```
+
+## Design Patterns Implementation
+
+### 1. Singleton Pattern
+- **JwtTokenProvider**: Single instance for token generation
+- **FileStorageUtil**: Single instance for file operations
+
+### 2. Factory Pattern
+- User creation in UserService (Admin vs JobSeeker)
+- DTO to Entity conversion
+
+### 3. Strategy Pattern
+- Security configuration strategies
+- Filter strategies for jobs and job seekers
+
+### 4. Repository Pattern
+- All repository interfaces extend JpaRepository
+- Custom query methods for specific operations
+
+### 5. Template Method Pattern
+- BaseEntity provides template for all entities
+- Service interfaces define contract
+
+### 6. Observer Pattern
+- AOP logging observes method executions
+- Event-driven logging
+
+### 7. Facade Pattern
+- Service layer provides simplified interface
+- Controllers expose REST API facade
+
+## Architecture Layers
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    Presentation Layer                    │
+│              (React Frontend + REST Controllers)         │
+├─────────────────────────────────────────────────────────┤
+│                    Business Layer                        │
+│              (Service Interfaces + Implementations)       │
+├─────────────────────────────────────────────────────────┤
+│                    Data Access Layer                     │
+│              (Repository Interfaces + JPA)              │
+├─────────────────────────────────────────────────────────┤
+│                    Database Layer                        │
+│              (H2 Database + Entities)                   │
+├─────────────────────────────────────────────────────────┤
+│                    Cross-Cutting Concerns               │
+│              (Security, Logging, File I/O)              │
+└─────────────────────────────────────────────────────────┘
+```
